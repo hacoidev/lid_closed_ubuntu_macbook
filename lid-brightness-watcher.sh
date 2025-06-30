@@ -6,8 +6,8 @@ DEVICE=$(ls /sys/class/backlight/ 2>/dev/null | grep -E "intel|amdgpu|nvidia|rad
 
 ORIGINAL_BRIGHTNESS=$(brightnessctl -d $DEVICE get)
 
-ALS_PATH="/sys/bus/iio/devices/iio:device0/in_illuminance_raw" // thay đổi device cảm biến tiệm cận ở đây
-THRESHOLD=1    # ánh sáng nhỏ hơn ngưỡng này => màn hình đang bị gập
+ALS_PATH="/sys/bus/iio/devices/iio:device0/in_illuminance_raw" #thay đổi device cảm biến tiệm cận ở đây
+THRESHOLD=10   # ánh sáng nhỏ hơn ngưỡng này => màn hình đang bị gập
 STATE=""
 
 while true; do
@@ -20,12 +20,9 @@ while true; do
         STATE="closed"
       fi
     else
-      if [ "$STATE" != "open" ]; then
         echo "$(date): Lid likely open (light=$LIGHT)"
-        brightnessctl -d "$DEVICE" set $ORIGINAL_BRIGHTNESS
+        brightnessctl -d "$DEVICE" set 40
         STATE="open"
-        break
-      fi
     fi
   fi
   sleep 1
