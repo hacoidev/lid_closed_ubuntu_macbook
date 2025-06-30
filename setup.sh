@@ -18,7 +18,7 @@ echo "LimitNOFILE=65535" >> /etc/systemd/system/lid-brightness-handler.service
 echo "[Install]" >> /etc/systemd/system/lid-brightness-handler.service
 echo "WantedBy=multi-user.target" >> /etc/systemd/system/lid-brightness-handler.service
 
-
+apt install brightnessctl -y
 systemctl daemon-reload
 systemctl enable --now lid-brightness-handler.service
 systemctl restart lid-brightness-handler.service
